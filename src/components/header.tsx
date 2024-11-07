@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 type HeaderProps = { links: Link[] };
 
 export default function Header({ links }: HeaderProps) {
-    const {activeSection, setActiveSection, setTimeOfLastCLick} = 
+    const {activeSection, setActiveSection, setTimeOfLastClick} = 
     useActiveSectionContext();
 
     return (
@@ -37,7 +37,7 @@ export default function Header({ links }: HeaderProps) {
                         href={link.hash}
                         onClick={()=> {
                             setActiveSection(link.hash);
-                            setTimeOfLastCLick(Date.now);
+                            setTimeOfLastClick(Date.now);
                         }}
                         >
                             {link.nameEng}

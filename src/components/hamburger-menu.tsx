@@ -17,7 +17,7 @@ const HamburgerMenu: React.FC<HamburgMenuProps> = ({ links }) => {
 
 const [isOpen, setIsOpen] = useState(false);
 
-const { activeSection, setActiveSection, setTimeOfLastCLick } = useActiveSectionContext();
+const { activeSection, setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
 
 const menuTrigger = {
     visible: { scale:1, opacity:0.7, y:0 },
@@ -73,7 +73,7 @@ const menuList = {
                                 href= {link.hash}
                                 onClick={()=> {
                                     setActiveSection(link.hash);
-                                    setTimeOfLastCLick(Date.now());
+                                    setTimeOfLastClick(Date.now());
                                 }}
                                 >
                                     {link.nameEng}
