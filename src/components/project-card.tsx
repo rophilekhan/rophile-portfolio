@@ -1,87 +1,104 @@
 "use client"
 
+import React, { useRef } from "react"
 import Image from "next/image"
 import { ProjectInfo } from "@/lib/type"
 import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef } from "react"
 import { ArrowUpRight } from "lucide-react"
 
-type ProjectProps = ProjectInfo
-
-export default function Project({
-  title,
-  description,
-  imageUrl,
-  link,
-  tags = [],
-}: ProjectProps) {
+export default function Project({ title, description, imageUrl, link, tags = [] }: ProjectInfo) {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["0 1", "1.33 1"],
   })
-  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1])
-  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.3, 1])
+  
+  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.95, 1])
+  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.7, 1])
 
   return (
     <motion.div
       ref={ref}
-      style={{
-        scale: scaleProgress,
-        opacity: opacityProgress,
-      }}
-      className="group mb-3 sm:mb-8 last:mb-0"
+      style={{ scale: scaleProgress, opacity: opacityProgress }}
+      className="group mb-12 last:mb-0"
     >
-      <section className="bg-white max-w-[42rem] border border-black/5 rounded-lg overflow-hidden sm:pr-8 relative sm:h-[25rem] hover:bg-gray-50 transition sm:group-even:pl-8 dark:text-white dark:bg-white/10 dark:hover:bg-white/20">
-        <div className="pt-4 pb-7 px-5 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[50%] flex flex-col h-full sm:group-even:ml-[18rem]">
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
-        <h3 className="text-2xl font-bold">{title}</h3>
-            </span>
+      <section className="relative bg-white/70 dark:bg-white/5 backdrop-blur-xl max-w-[54rem] border border-purple-500/10 dark:border-white/10 rounded-[3rem] overflow-hidden sm:pr-8 relative sm:h-[30rem] hover:bg-white dark:hover:bg-white/10 transition-all duration-500 shadow-2xl group-even:sm:pl-8">
+        
+        {/* TEXT CONTENT CONTAINER */}
+        <div className="pt-8 pb-8 px-6 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[50%] flex flex-col h-full sm:group-even:ml-[22rem]">
           
-          <p className="mt-2 leading-relaxed text-gray-700 dark:text-white/70">
-            {description}
-          </p>
-          <ul className="flex flex-wrap mt-4 gap-2 sm:mt-auto">
-            {tags.map((tag) => (
-              <li
-                key={tag}
-                className="bg-black/[0.7] px-3 py-1 text-[0.7rem] uppercase tracking-wider text-white rounded-full dark:text-white/70"
-              >
-                {tag}
-              </li>
-            ))}
-          </ul>
-          <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-700 dark:text-white/70 group flex items-center gap-2 mt-4 hover:text-gray-950 dark:hover:text-white"
-          >
-            View Project
-            <ArrowUpRight className="opacity-70 group-hover:translate-x-1 group-hover:-translate-y-1 transition" />
-          </a>
+          <div className="flex items-center gap-2 mb-3">
+             <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+             <span className="text-[10px] font-black uppercase tracking-widest text-purple-600 dark:text-purple-400">Featured Innovation</span>
+          </div>
+
+          <h3 className="text-3xl font-black tracking-tighter text-gray-950 dark:text-white uppercase italic">
+            {title}
+          </h3>
+          
+          {/* DESCRIPTION AREA: Larger view, clean scrolling */}
+          <div className="mt-4 pr-4 overflow-y-auto max-h-[160px] custom-scrollbar flex-grow">
+            <p className="leading-relaxed text-gray-700 dark:text-white/70 text-sm sm:text-base font-medium">
+              {description}
+            </p>
+          </div>
+
+          {/* ACTION AREA: Tags & Button stay at the bottom */}
+          <div className="mt-auto pt-4">
+            <ul className="flex flex-wrap gap-2 mb-6">
+                {tags.map((tag) => (
+                    <li key={tag} className="bg-purple-600/10 dark:bg-white/10 px-3 py-1 text-[0.65rem] font-black uppercase tracking-widest text-purple-700 dark:text-white rounded-lg border border-purple-500/20">
+                        {tag}
+                    </li>
+                ))}
+            </ul>
+
+            <a 
+                href={link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group/btn inline-flex items-center gap-2 px-8 py-3 bg-gray-950 dark:bg-purple-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-purple-500/20"
+            >
+                Launch App <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+            </a>
+          </div>
         </div>
 
+        {/* ORIGINAL STYLE IMAGE: Large, floating, and tilting to top-right */}
         <Image
           src={imageUrl}
-          alt={`Screenshot of ${title}`}
-          quality={95}
-          width={500}
-          height={300}
-          className="absolute hidden sm:block top-8 -right-40 w-[28.25rem] rounded-t-lg shadow-2xl
-        transition 
-        group-hover:scale-[1.04]
-        group-hover:-translate-x-3
-        group-hover:translate-y-3
-        group-hover:-rotate-2
+          alt={title}
+          quality={100}
+          width={600}
+          height={400}
+          className="absolute hidden sm:block top-12 -right-40 w-[30rem] rounded-t-2xl shadow-2xl
+          transition-all duration-700
+          
+          group-hover:scale-[1.06]
+          group-hover:-translate-x-6
+          group-hover:-translate-y-4
+          group-hover:-rotate-2
 
-        group-even:group-hover:translate-x-3
-        group-even:group-hover:translate-y-3
-        group-even:group-hover:rotate-2
-
-        group-even:right-[initial] group-even:-left-40"
+          group-even:group-hover:translate-x-6
+          group-even:group-hover:-translate-y-4
+          group-even:group-hover:rotate-2
+          group-even:right-[initial] group-even:-left-40"
         />
       </section>
+
+      {/* Internal CSS for clean scrollbar */}
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #a855f7;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+      `}</style>
     </motion.div>
   )
 }

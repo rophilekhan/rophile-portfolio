@@ -8,7 +8,7 @@ import SubmitBtn from "./submit-btn"
 import { Fade } from "react-awesome-reveal"
 import { sendEmail } from "@/app/actions"
 import { Toaster, toast } from "react-hot-toast"
-import { CheckCircle } from "lucide-react"
+import { Mail, MessageSquare, User, ShieldCheck, Zap } from "lucide-react"
 
 export default function Contact() {
   const { ref } = useSectionInView("#contact")
@@ -17,85 +17,107 @@ export default function Contact() {
     <motion.section
       id="contact"
       ref={ref}
-      className="mb-20 sm:mb-28 w-[min(100%,38rem)] text-center"
+      className="mb-20 sm:mb-28 w-full text-center relative px-4 overflow-visible"
     >
       <Toaster position="top-center" reverseOrder={false} />
-      <Fade direction="up" delay={400} cascade damping={1e-1} triggerOnce={true}>
-        <SectionHeading>Contact Me</SectionHeading>
-      </Fade>
 
-      <Fade direction="up" delay={600} cascade damping={1e-1}>
-        <p className="text-gray-700 -mt-6 dark:text-white/80">
-          Feel free to contact me directly through this form
-        </p>
-      </Fade>
+      {/* REFINED WATERMARK - Optimized for all themes */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 opacity-[0.03] dark:opacity-[0.05] pointer-events-none select-none w-full flex justify-center overflow-visible">
+  <h1 className="text-[12vw] sm:text-[10vw] font-black uppercase tracking-tighter whitespace-nowrap">
+    Connect
+  </h1>
+</div>
 
-      <Fade direction="up" delay={800} cascade damping={1e-1}>
-        <form
-          className="mt-10 flex flex-col dark:text-black"
-          action={async (formData) => {
-            const { error } = await sendEmail(formData)
+      <div className="max-w-[42rem] mx-auto">
+        <Fade direction="up" delay={200} triggerOnce={true}>
+          <SectionHeading>
+            <h1 className="text-4xl sm:text-6xl font-black mb-4 tracking-tighter uppercase italic">
+              Get In <span className="text-purple-600 dark:text-purple-400">Touch</span>
+            </h1>
+          </SectionHeading>
+        </Fade>
 
-            if (error) {
-              toast.error(error)
-              return
-            }
+        <Fade direction="up" delay={400} triggerOnce={true}>
+          <div className="flex flex-col items-center gap-2 -mt-4 mb-12">
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-[30rem]">
+              Ready to initialize your next project? Let's discuss the <span className="text-purple-500 font-bold">architecture</span> and vision.
+            </p>
+            <div className="flex items-center gap-4 mt-2 text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+               <span className="flex items-center gap-1"><ShieldCheck size={12} className="text-purple-500"/> Direct Access</span>
+               <span className="flex items-center gap-1"><Zap size={12} className="text-purple-500"/> Fast Response</span>
+            </div>
+          </div>
+        </Fade>
 
-            toast.custom((t) => (
-              <div
-                className={`${
-                  t.visible ? 'animate-enter' : 'animate-leave'
-                } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-              >
-                <div className="flex-1 w-0 p-4">
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0 pt-0.5">
-                      <CheckCircle className="h-10 w-10 text-green-500" />
-                    </div>
-                    <div className="ml-3 flex-1">
-                      <p className="text-sm font-medium text-gray-900">
-                        Message Sent Successfully!
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Thank you for reaching out. I'll get back to you soon.
-                      </p>
-                    </div>
-                  </div>
+        <Fade direction="up" delay={600} triggerOnce={true}>
+          <div className="relative group">
+            {/* Ambient Glow for Depth */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-600 rounded-[2.5rem] blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+            
+            <form
+              className="relative flex flex-col p-1 bg-white/40 dark:bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-black/5 dark:border-white/10 shadow-2xl"
+              action={async (formData) => {
+                const { error } = await sendEmail(formData)
+
+                if (error) {
+                  toast.error(error)
+                  return
+                }
+
+                toast.success("Inquiry transmitted successfully.")
+              }}
+            >
+              <div className="flex flex-col gap-3 p-6 sm:p-8 bg-white/80 dark:bg-gray-950/50 rounded-[2.2rem]">
+                {/* NAME INPUT */}
+                <div className="relative group/input">
+                   <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within/input:text-purple-500 transition-colors" size={18} />
+                   <input
+                    className="w-full h-14 pl-12 pr-4 rounded-2xl border-2 border-transparent bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white placeholder:text-gray-500 focus:border-purple-500/30 focus:bg-white dark:focus:bg-white/10 transition-all outline-none font-medium"
+                    name="senderName"
+                    type="text"
+                    required
+                    placeholder="Full Name"
+                  />
                 </div>
-                <div className="flex border-l border-gray-200">
-                  <button
-                    onClick={() => toast.dismiss(t.id)}
-                    className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  >
-                    Close
-                  </button>
+
+                {/* EMAIL INPUT */}
+                <div className="relative group/input">
+                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within/input:text-purple-500 transition-colors" size={18} />
+                   <input
+                    className="w-full h-14 pl-12 pr-4 rounded-2xl border-2 border-transparent bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white placeholder:text-gray-500 focus:border-purple-500/30 focus:bg-white dark:focus:bg-white/10 transition-all outline-none font-medium"
+                    name="senderEmail"
+                    type="email"
+                    required
+                    placeholder="Professional Email"
+                  />
+                </div>
+
+                {/* MESSAGE INPUT */}
+                <div className="relative group/input">
+                   <MessageSquare className="absolute left-4 top-5 text-gray-400 group-focus-within/input:text-purple-500 transition-colors" size={18} />
+                   <textarea
+                    className="w-full h-52 pl-12 pr-4 pt-4 rounded-2xl border-2 border-transparent bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white placeholder:text-gray-500 focus:border-purple-500/30 focus:bg-white dark:focus:bg-white/10 transition-all outline-none resize-none font-medium"
+                    name="message"
+                    required
+                    placeholder="Project Brief..."
+                  />
+                </div>
+
+                <div className="flex justify-center mt-2">
+                  <SubmitBtn text="Send " />
                 </div>
               </div>
-            ), {
-              duration: 5000,
-            })
-          }}
-        >
-          <input
-            className="h-14 px-4 rounded-lg borderBlack dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 transition-all dark:outline-none"
-            name="senderEmail"
-            type="email"
-            required
-            maxLength={500}
-            placeholder="Your email"
-            aria-label="Your email address"
-          />
-          <textarea
-            className="h-52 my-3 rounded-lg borderBlack p-4 dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 transition-all dark:outline-none"
-            name="message"
-            placeholder="Your message"
-            required
-            maxLength={5000}
-            aria-label="Your message"
-          />
-          <SubmitBtn text="Send" />
-        </form>
-      </Fade>
+            </form>
+          </div>
+        </Fade>
+
+        <div className="mt-16 flex flex-col items-center gap-4">
+            <div className="w-10 h-[1px] bg-gray-300 dark:bg-gray-800" />
+            <p className="text-[10px] uppercase font-bold tracking-[0.4em] text-gray-400">
+                Karachi, PK • Global Deployment
+            </p>
+        </div>
+      </div>
     </motion.section>
   )
 }

@@ -1,65 +1,48 @@
 "use client";
+
 import React from "react";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { Link } from "@/lib/type";
 import { useActiveSectionContext } from "@/container/active-section";
-import { links } from "@/lib/data";
-
-// Animation
 import { motion } from "framer-motion";
 
-type HeaderProps = { links: Link[] };
-
-export default function Header({ links }: HeaderProps) {
-    const { activeSection, setActiveSection, setTimeOfLastClick } = 
-    useActiveSectionContext();
+export default function Header({ links }: { links: Link[] }) {
+    const { activeSection, setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
 
     return (
         <motion.header 
-            className="hidden md:flex items-center justify-center fixed z-[999] w-full mt-4"
+            className="hidden md:flex items-center justify-center fixed z-[999] w-full mt-8"
             initial={{ opacity: 0, y: -20 }} 
             animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.5 }}
         >
-            <motion.div className="flex p-1 rounded-none border border-white border-opacity-40 bg-white bg-opacity-80 shadow-lg shadow-black/[0.03] backdrop:backdrop-blur-[0.5rem] sm:rounded-full dark:bg-gray-950 dark:border-black/40 dark:bg-opacity-75">
-                <ul className="flex flex-wrap items-center justify-center gap-y-1 text-[0.9rem] font-medium text-gray-500">
+            <motion.div 
+                className="flex p-1.5 rounded-full border border-white/20 bg-white/60 dark:bg-gray-950/60 backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] transition-all"
+            >
+                <ul className="flex items-center justify-center gap-1 text-[0.75rem] font-black uppercase tracking-[0.2em]">
                     {links?.map((link) => (
-                        <motion.li 
-                            className="flex items-center justify-center relative"
-                            key={link.hash}
-                            initial={{ y: -100, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            whileHover={{ scale: 1.05 }} // Scale effect on hover
-                        >
+                        <li className="relative flex items-center" key={link.hash}>
                             <NextLink
                                 className={clsx(
-                                    "flex w-full items-center justify-center px-3 py-3 transition duration-300 ease-in-out dark:text-gray-50 dark:hover:text-gray-300",
-                                    {
-                                        "text-red-900 dark:text-purple-700":
-                                        activeSection === link.hash,
-                                    }
+                                    "px-5 py-2.5 transition-all duration-500 rounded-full hover:text-purple-600 dark:hover:text-purple-400",
+                                    activeSection === link.hash ? "text-purple-600 dark:text-purple-400" : "text-gray-500"
                                 )}
                                 href={link.hash}
                                 onClick={() => {
                                     setActiveSection(link.hash);
-                                    setTimeOfLastClick(Date.now);
+                                    setTimeOfLastClick(Date.now());
                                 }}
                             >
                                 {link.nameEng}
                                 {link.hash === activeSection && (
                                     <motion.span
-                                        transition={{
-                                            type: "spring",
-                                            stiffness: 300,
-                                            damping: 30,
-                                        }}
                                         layoutId="activeSection"
-                                        className="bg-gray-600 rounded-full absolute inset-0 -z-10 dark:bg-blue-900 shadow-md transition duration-300"
+                                        className="absolute inset-0 bg-purple-500/10 dark:bg-purple-400/10 rounded-full -z-10 border border-purple-500/20"
+                                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                     />
                                 )}
                             </NextLink>
-                        </motion.li>
+                        </li>
                     ))}
                 </ul>
             </motion.div>

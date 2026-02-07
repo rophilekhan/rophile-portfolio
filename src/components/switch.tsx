@@ -1,63 +1,117 @@
+"use client"
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Sparkles } from "lucide-react";
 import { useTheme } from "./theme-context";
 
 interface SwitchProps {
     setActiveButton: () => void;
 }
 
-export default function Switch({
-    setActiveButton,
-}: SwitchProps) {
+export default function Switch({ setActiveButton }: SwitchProps) {
     const [isHovered, setIsHovered] = useState(false);
     const { theme } = useTheme();
 
-    const switchVariants = {
-        visible: { scale: 1, opacity: 1, y: 0 },
-        hover: { scale: 1.1 },
-        hidden: { scale: 0.8, opacity: 0, y: 10 }
+    const containerVariants = {
+        initial: { scale: 1 },
+        hover: { scale: 1.1, rotate: 5 },
+        tap: { scale: 0.9, rotate: -5 }
+    };
+
+    const tooltipVariants = {
+        hidden: { opacity: 0, y: 15, x: "-50%", scale: 0.5 },
+        visible: { 
+            opacity: 1, 
+            y: -10, 
+            x: "-50%", 
+            scale: 1,
+            transition: { type: "spring", stiffness: 300, damping: 20 }
+        },
+        exit: { opacity: 0, y: 10, scale: 0.5, transition: { duration: 0.15 } }
     };
 
     return (
-        <div className="relative">
+        <div className="relative group">
+            {/* 1. Floating Preview Tooltip */}
             <AnimatePresence>
                 {isHovered && (
                     <motion.div
-                        key="hiddenButton"
                         initial="hidden"
                         animate="visible"
-                        exit="hidden"
-                        variants={switchVariants}
-                        transition={{ duration: 0.2 }}
-                        className="absolute -top-12 left-1/2 transform -translate-x-1/2"
+                        exit="exit"
+                        variants={tooltipVariants}
+                        className="absolute -top-14 left-1/2 z-50 pointer-events-none"
                     >
-                        <div className="bg-white dark:bg-gray-950 rounded-full p-3 shadow-lg">
+                        <div className="relative flex items-center justify-center px-4 py-2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-2xl shadow-2xl border border-purple-500/30">
+                            <span className="text-[10px] font-bold uppercase tracking-widest mr-2 dark:text-white">
+                                Switch to {theme === "light" ? "Dark" : "Light"}
+                            </span>
                             {theme === "light" ? 
-                                <Moon size={15} className="text-gray-950" /> :  // Changed to dark color for light theme
-                                <Sun size={15} className="text-white" /> // Changed to light color for dark theme
+                                <Moon size={14} className="text-purple-600 animate-pulse" /> : 
+                                <Sun size={14} className="text-yellow-500 animate-spin-slow" />
                             }
+                            {/* Little Arrow */}
+                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white/80 dark:bg-gray-900/80 border-r border-b border-purple-500/30 rotate-45" />
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
 
+            {/* 2. Main Toggle Button */}
             <motion.button
                 onClick={setActiveButton}
-                className={`w-[3.5rem] h-[3.5rem] rounded-full drop-shadow-lg backdrop-blur-[0.5rem] 
-                border border-gray-800 dark:border-gray-200 flex items-center justify-center 
-                ${theme === "light" ? "bg-gray-950 text-white" : "bg-white text-gray-950"}`}
-                variants={switchVariants}
-                initial="visible"
-                whileHover="hover"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
+                variants={containerVariants}
+                initial="initial"
+                whileHover="hover"
+                whileTap="tap"
+                className={`
+                    relative w-14 h-14 rounded-2xl flex items-center justify-center 
+                    transition-all duration-500 shadow-xl overflow-hidden
+                    ${theme === "light" 
+                        ? "bg-white border-2 border-gray-200 text-gray-900 shadow-purple-500/10" 
+                        : "bg-gray-950 border-2 border-white/10 text-white shadow-purple-500/20"
+                    }
+                `}
             >
-                {theme === "light" ? 
-                    <Sun size={15} className="text-white" /> : 
-                    <Moon size={15} className="text-gray-950" />
-                }
+                {/* Background Glow Effect */}
+                <div className={`absolute inset-0 opacity-20 blur-xl transition-colors duration-500 ${theme === 'light' ? 'bg-purple-400' : 'bg-blue-600'}`} />
+
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={theme}
+                        initial={{ y: 20, opacity: 0, rotate: -90 }}
+                        animate={{ y: 0, opacity: 1, rotate: 0 }}
+                        exit={{ y: -20, opacity: 0, rotate: 90 }}
+                        transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                    >
+                        {theme === "light" ? (
+                            <div className="relative">
+                                <Sun className="w-6 h-6 text-orange-500" strokeWidth={2.5} />
+                                <motion.div 
+                                    animate={{ opacity: [0, 1, 0], scale: [1, 1.5, 1] }}
+                                    transition={{ duration: 2, repeat: Infinity }}
+                                    className="absolute -top-1 -right-1"
+                                >
+                                    <Sparkles size={10} className="text-orange-300" />
+                                </motion.div>
+                            </div>
+                        ) : (
+                            <div className="relative">
+                                <Moon className="w-6 h-6 text-purple-400" strokeWidth={2.5} />
+                                <motion.div 
+                                    animate={{ x: [-2, 2, -2] }}
+                                    transition={{ duration: 4, repeat: Infinity }}
+                                    className="absolute -top-1 -right-1 opacity-50"
+                                >
+                                    <div className="w-1 h-1 bg-white rounded-full blur-[1px]" />
+                                </motion.div>
+                            </div>
+                        )}
+                    </motion.div>
+                </AnimatePresence>
             </motion.button>
         </div>
     );
