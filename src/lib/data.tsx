@@ -11,13 +11,29 @@ export const links: Link[] = [
 export const categoriesData = ["All", "React Native", "SaaS / Apps", "Clones"] as const;
 
 export const projectsData: ProjectInfo[] = [
+   {
+    title: "Reporting Portal Mobile App",
+    description: "A powerful ERP Reporting Mobile Application built with React Native CLI, designed to provide complete access to Sales, Purchase, Inventory, and other business reports in one place. Users can view detailed reports, generate summaries, print documents, and analyze statistics through an interactive dashboard. The app also supports multi-branch management, allowing companies with multiple branches to instantly switch between branches and view branch-specific data with a single click. Built for performance, scalability, and seamless enterprise reporting.",
+    tags: ["React Native CLI", "ERP", "Hooks", "Dashboard", "Multi-Branch", "Reports"],
+    imageUrl: "/reportingPortal.png",
+    link: "https://drive.google.com/file/d/1vEf4Uzs-0QiJhBsssh1SmVeIq2K7bPd6/view?usp=sharing",
+    category: "React Native"
+},
     {
-        title: "Bites & Braces",
-        description: "A flagship Dental Management SaaS designed for clinical excellence. Engineered with high-performance mobile accessibility and real-time cloud sync for professional orthodontists.",
-        tags: ["React Native", "Firebase Auth", "Firestore", "NativeWind"],
-        imageUrl: "/bnb.png",
-        link: "https://play.google.com/store/apps/details?id=com.hassoft.bnb",
-        category: "React Native"
+        title: "Luxury Living Redefined",
+        description: "A professional Real Estate lead generation platform for luxury property sales. Features include a dynamic property catalog, contact management system, and a robust admin dashboard for property listings. Built with React (Vite), TypeScript, Tailwind CSS, and Supabase.",
+        tags: ["React (Vite)", "Next.js", "react-hooks" ,"Supabase", "Typescript", "Tailwind"],
+        imageUrl: "/thumbnail.jpeg",
+        link: "https://luxury-living-codesphinx.vercel.app/",
+        category: "SaaS / Apps"
+    },
+      {
+        title: "Fresh Laundry",
+        description: "A premium SaaS-based Laundry Management System. Features include monthly subscription plans, automated service allocation, user/admin dashboards, and secure authentication. Built with React (Vite), TypeScript, Tailwind CSS, and Supabase.",
+        tags: ["React", "Next.js", "Admin" ,"Supabase", "Typescript", "Tailwind"],
+        imageUrl: "/laundry.jpeg",
+        link: "https://freshlaundry-codesphinx.vercel.app/",
+        category: "SaaS / Apps"
     },
     {
         title: "Shop Vibe",
