@@ -40,7 +40,7 @@ export default function Contact() {
         <Fade direction="up" delay={400} triggerOnce={true}>
           <div className="flex flex-col items-center gap-2 -mt-4 mb-12">
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-[30rem]">
-              Ready to initialize your next project? Let's discuss the <span className="text-purple-500 font-bold">architecture</span> and vision.
+              Ready to initialize your next project? Let&apos;s discuss the <span className="text-purple-500 font-bold">architecture</span> and vision.
             </p>
             <div className="flex items-center gap-4 mt-2 text-[10px] uppercase tracking-widest text-gray-400 font-bold">
                <span className="flex items-center gap-1"><ShieldCheck size={12} className="text-purple-500"/> Direct Access</span>

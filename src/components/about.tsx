@@ -4,21 +4,16 @@ import React, { useState } from 'react';
 import SectionHeading from './section-heading';
 import Image from 'next/image';
 import { useSectionInView } from '@/lib/useinView';
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion"; // useScroll, useTransform removed as unused
 import { Fade } from 'react-awesome-reveal';
 import { 
-    FaMobileAlt, FaRocket, FaLightbulb, 
-    FaQuoteLeft, FaTimes, FaCogs, 
-    FaChartLine, FaWindowMaximize, FaCloud, FaServer 
+    FaMobileAlt, FaQuoteLeft, FaTimes, FaCogs, 
+    FaChartLine, FaWindowMaximize, FaServer, FaCloud 
 } from 'react-icons/fa';
 
 export default function About() {
     const { ref } = useSectionInView("#about");
-    const { scrollYProgress } = useScroll();
     const [activeDetail, setActiveDetail] = useState<number | null>(null);
-    
-    const xMove = useTransform(scrollYProgress, [0, 1], [-50, 50]);
-    const yMove = useTransform(scrollYProgress, [0, 1], [0, 30]);
 
     const focusDetails = [
         { 
@@ -52,12 +47,11 @@ export default function About() {
             ref={ref}
             className="w-full text-center mt-32 leading-8 mb-28 sm:mb-40 scroll-mt-28 mx-auto px-6 relative overflow-visible"
         >
-            {/* DYNAMIC WATERMARK */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 opacity-[0.03] dark:opacity-[0.05] pointer-events-none select-none w-full flex justify-center overflow-visible">
-  <h1 className="text-[12vw] sm:text-[10vw] font-black uppercase tracking-tighter whitespace-nowrap">
-    About Me
-  </h1>
-</div>
+            <h1 className="text-[12vw] sm:text-[10vw] font-black uppercase tracking-tighter whitespace-nowrap">
+                About Me
+            </h1>
+          </div>
 
             <div className="container max-w-[75rem] mx-auto relative z-10">
                 <Fade direction="up" delay={200} triggerOnce={true}>
@@ -73,7 +67,7 @@ export default function About() {
                         <Fade direction="up" delay={400} cascade damping={0.15} triggerOnce={true}>
                             <div className="space-y-6">
                                 <p className="text-2xl sm:text-3xl font-light leading-tight text-gray-900 dark:text-gray-100">
-                                    I am <span className="font-bold text-purple-600 dark:text-purple-400">Rophile Ahmed Khan</span> — A Frontend Architect and SaaS Visionary.
+                                    I am <span className="font-bold text-purple-600 dark:text-purple-400">Rophile Ahmed Khan</span> &mdash; A Frontend Architect and SaaS Visionary.
                                 </p>
 
                                 <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
@@ -84,7 +78,7 @@ export default function About() {
                             <div className="relative p-8 rounded-3xl bg-white/50 dark:bg-white/5 border border-purple-500/20 backdrop-blur-md shadow-2xl">
                                 <FaQuoteLeft className="text-purple-500/20 text-5xl absolute top-6 left-6" />
                                 <p className="text-lg sm:text-xl leading-relaxed text-gray-800 dark:text-gray-200 italic relative z-10 pl-10 font-medium">
-                                    "Architecture is the silent language of code. At Codesphinx, we build the digital future."
+                                    &ldquo;Architecture is the silent language of code. At Codesphinx, we build the digital future.&rdquo;
                                 </p>
                             </div>
 

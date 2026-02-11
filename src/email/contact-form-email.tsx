@@ -18,7 +18,7 @@ export default function ContactFormEmail({ message, senderEmail, senderName }: C
           <Container>
             <Section className="bg-white border-black/10 my-10 px-10 py-6 rounded-2xl">
               <Heading className="leading-tight text-xl font-bold">Strategic Inquiry Received</Heading>
-              <Text className="italic text-gray-700">"{message}"</Text>
+              <Text className="italic text-gray-700">&ldquo;{message}&rdquo;</Text>
               <Hr />
               <Text className="text-sm">Sender Name: <span className="font-bold">{senderName}</span></Text>
               <Text className="text-sm">Sender Email: <span className="font-bold">{senderEmail}</span></Text>

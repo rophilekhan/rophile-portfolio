@@ -59,7 +59,7 @@ const HamburgerMenu: React.FC<HamburgMenuProps> = ({ links }) => {
             exit="exit"
             className="w-full bg-white/80 dark:bg-gray-950/80 backdrop-blur-[1.5rem] border border-white dark:border-white/10 shadow-2xl rounded-[2rem] flex flex-col items-center justify-center p-2 overflow-hidden"
           >
-            {links.map((link, index) => (
+            {links.map((link) => (
               <motion.div
                 className="w-full"
                 key={link.hash}
